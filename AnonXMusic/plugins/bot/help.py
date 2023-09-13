@@ -38,8 +38,8 @@ async def helper_private(
         language = await get_lang(update.chat.id)
         _ = get_string(language)
         keyboard = help_pannel(_)
-        await update.reply_photo(
-            photo=START_IMG_URL,
+        await update.reply_animation(
+            animation=START_IMG_URL,
             caption=_["help_1"].format(SUPPORT_CHAT),
             reply_markup=keyboard,
         )
