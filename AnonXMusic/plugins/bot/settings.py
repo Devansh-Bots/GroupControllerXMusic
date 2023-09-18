@@ -89,6 +89,7 @@ async def settings_back_markup(client, CallbackQuery: CallbackQuery, _):
                     CallbackQuery.from_user.first_name, MUSIC_BOT_NAME
                 ),
             ),
+      ),
     else:
         buttons = setting_markup(_)
         return await CallbackQuery.edit_message_reply_markup(
