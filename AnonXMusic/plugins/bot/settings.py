@@ -1,12 +1,7 @@
 from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.errors import MessageNotModified
-from pyrogram.types import (
-    CallbackQuery,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    Message,
-)
+from pyrogram.types import *
 
 from AnonXMusic import app
 from AnonXMusic.utils.database import (
@@ -34,7 +29,7 @@ from AnonXMusic.utils.inline.settings import (
     vote_mode_markup,
 )
 from AnonXMusic.utils.inline.start import private_panel
-from config import BANNED_USERS, OWNER_ID
+from config import BANNED_USERS, OWNER_ID, START_IMG_URL
 
 
 @app.on_message(
@@ -48,6 +43,15 @@ async def settings_mar(client, message: Message, _):
         reply_markup=InlineKeyboardMarkup(buttons),
     )
 
+@app.on_callback_query(filters.regex("lund_lele") & ~BANNED_USERS)
+@languageCB
+async def gib_repo(client, CallbackQuery, _):
+    await CallbackQuery.edit_message_media(
+        InputMediaVideo("https://te.legra.ph/file/e6471d19bd04a5095436a.mp4"),
+        reply_markup=InlineKeyboardMarkup(
+            [[InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data=f"settingsback_helper")]]
+        ),
+    )
 
 @app.on_callback_query(filters.regex("settings_helper") & ~BANNED_USERS)
 @languageCB
@@ -78,10 +82,13 @@ async def settings_back_markup(client, CallbackQuery: CallbackQuery, _):
         await app.resolve_peer(OWNER_ID)
         OWNER = OWNER_ID
         buttons = private_panel(_)
-        return await CallbackQuery.edit_message_text(
-            _["start_2"].format(CallbackQuery.from_user.mention, app.mention),
-            reply_markup=InlineKeyboardMarkup(buttons),
-        )
+      return await CallbackQuery.edit_message_media(
+            InputMediaAnimation(
+                media=START_IMG_URL, #start_video here
+                caption=_["start_2"].format(
+                    CallbackQuery.from_user.first_name, MUSIC_BOT_NAME
+                ),
+            ),
     else:
         buttons = setting_markup(_)
         return await CallbackQuery.edit_message_reply_markup(
