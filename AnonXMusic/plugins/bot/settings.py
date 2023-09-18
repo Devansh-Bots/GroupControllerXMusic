@@ -87,7 +87,7 @@ async def settings_back_markup(client, CallbackQuery: CallbackQuery, _):
         await app.resolve_peer(OWNER_ID)
         OWNER = OWNER_ID
         buttons = private_panel(_)
-      return await CallbackQuery.edit_message_media(
+        return await CallbackQuery.edit_message_media(
             InputMediaAnimation(
                 media=config.START_IMG_URL,
                 caption=_["start_2"].format(
