@@ -84,12 +84,13 @@ async def settings_back_markup(client, CallbackQuery: CallbackQuery, _):
         buttons = private_panel(_)
       return await CallbackQuery.edit_message_media(
             InputMediaAnimation(
-                media=START_IMG_URL, #start_video here
+                media=config.START_IMG_URL,
                 caption=_["start_2"].format(
                     CallbackQuery.from_user.first_name, MUSIC_BOT_NAME
                 ),
             ),
-      ),
+            reply_markup=InlineKeyboardMarkup(buttons),
+        )
     else:
         buttons = setting_markup(_)
         return await CallbackQuery.edit_message_reply_markup(
